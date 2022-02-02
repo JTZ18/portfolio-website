@@ -14,7 +14,9 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-scripts": "^5.0.0",
-    "three": "^0.136.0"
+    "three": "^0.136.0",
+    "three-plain-animator": "^1.0.6",
+    "use-animated-sprite": "^1.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
