@@ -4,4 +4,4 @@ import './styles.css'
 import App from './App'
 import NewApp from './NewApp'
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<TestApp />, document.getElementById('root'))
