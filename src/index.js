@@ -5,4 +5,4 @@ import App from './App'
 import NewApp from './NewApp'
 import TestApp from './TestApp'
 
-ReactDOM.render(<TestApp />, document.getElementById('root'))
+ReactDOM.render(<NewApp />, document.getElementById('root'))

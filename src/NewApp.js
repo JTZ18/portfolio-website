@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as THREE from 'three'
 import { Suspense, useEffect, useLayoutEffect, useRef } from 'react'
 import { Canvas, useFrame, useLoader } from '@react-three/fiber'
-import { ScrollControls, Sky, useScroll, useGLTF, useFBX, useAnimations, OrbitControls, useTexture } from '@react-three/drei'
+import { ScrollControls, Sky, useScroll, useGLTF, useFBX, useAnimations, OrbitControls, useTexture, Stage, Backdrop, useMatcapTexture, MeshReflectorMaterial } from '@react-three/drei'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Bounds, GizmoHelper, GizmoViewport, Box } from '@react-three/drei'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
@@ -13,19 +13,38 @@ export default function NewApp() {
   //debugger;
   return (
     <Canvas dpr={[1, 2]} shadows>
-    <OrbitControls/>
+    <OrbitControls position={[0,2,0]}/>
         
-        <ambientLight intensity={1.5} />
+        {/* <ambientLight intensity={1.5} />
         <Sky scale={1000} sunPosition={[2, 0.4, 10]} />
-        <spotLight angle={0.14} color="#ffd0d0" penumbra={1} position={[500, 4000, 0]} shadow-mapSize={[2048, 2048]} shadow-bias={-0.0001} castShadow />
+        <spotLight angle={0.14} color="#ffd0d0" penumbra={1} position={[500, 4000, 0]} shadow-mapSize={[2048, 2048]} shadow-bias={-0.0001} castShadow /> */}
        
         <Suspense fallback={null}>
-          <Urns scale={10} position={[0, 0, 0]} />
-          <Smoke scale={10} IconPosition={[0, 0, 0]} IconSize={[3, 3, 0.1]} />
+          <Stage contactShadow shadows adjustCamera intensity={1} environment="forest" preset="soft">
+              <Gecko scale={0.1}/>
+          </Stage>
         </Suspense>
     </Canvas>
   )
 }
+
+function Gecko({ ...props }) {
+  // This hook gives you offets, ranges and other useful things
+      const obj = useLoader(OBJLoader,'/TheoPose_Wip01.obj')
+      console.log(obj)
+      console.log(obj.children[0].geometry)
+      //debugger;
+      const material = new THREE.MeshBasicMaterial({color:"lightblue"})
+      const [matcap, url] = useMatcapTexture(
+        10, // index of the matcap texture https://github.com/emmelleppi/matcaps/blob/master/matcap-list.json
+        1024 // size of the texture ( 64, 128, 256, 512, 1024 )
+       )
+      
+      return (
+      <mesh geometry={obj.children[0].geometry} {...props}>
+        <meshMatcapMaterial matcap={matcap} />
+      </mesh>)
+  }
 
 function Urns({...props }) {
   const { scene, nodes, animations } = useLoader(GLTFLoader,'/gen_urn_lores_mod.glb')
