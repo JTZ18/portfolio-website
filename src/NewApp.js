@@ -1,28 +1,53 @@
 import React, { useState } from 'react';
 import * as THREE from 'three'
 import { Suspense, useEffect, useLayoutEffect, useRef } from 'react'
-import { Canvas, useFrame, useLoader } from '@react-three/fiber'
-import { ScrollControls, Sky, useScroll, useGLTF, useFBX, useAnimations, OrbitControls, useTexture, Stage, Backdrop, useMatcapTexture, MeshReflectorMaterial } from '@react-three/drei'
+import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
+import { ScrollControls, Sky, useScroll, useGLTF, useFBX, useAnimations, OrbitControls, useTexture, Stage, Backdrop, useMatcapTexture, MeshReflectorMaterial, Environment, ContactShadows, softShadows } from '@react-three/drei'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Bounds, GizmoHelper, GizmoViewport, Box } from '@react-three/drei'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { useAnimatedSprite } from 'use-animated-sprite';
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator"
+import { WaveMaterial } from './WaveMaterial'
 
 export default function NewApp() {
   //debugger;
   return (
-    <Canvas dpr={[1, 2]} shadows>
-    <OrbitControls position={[0,2,0]}/>
+    <Canvas dpr={[1, 2]} shadows camera={{ position: [0, 0, 3] }}>
+      <OrbitControls makeDefault/>
+      <color attach="background" args={['#191920']} />
+      <fog attach="fog" args={['#191920', 0, 15]} />
+      <ambientLight intensity={1} />
+      <directionalLight position={[-10, 0, -5]} intensity={5} color="red" />
+      <directionalLight position={[-1, -2, -5]} intensity={5} color="#0c8cbf" />
+      <spotLight position={[5, 0, 5]} intensity={100} penumbra={1} angle={0.33} castShadow color="#0c8cbf" />
+      {/* <spotLight position={[10, 10, 5]} angle={0.15} penumbra={1} intensity={100} castShadow shadow-mapSize={[2048, 2048]} color="#0c8cbf" /> */}
+      <Backdrop castShadow floor={2} position={[0, -0.5, -3]} scale={[50, 10, 4]}>
+        <MeshReflectorMaterial
+              blur={[300, 100]}
+              resolution={2048}
+              mixBlur={1}
+              mixStrength={60}
+              roughness={0.5}
+              depthScale={1.2}
+              minDepthThreshold={0.4}
+              maxDepthThreshold={1.4}
+              color="#202124"
+              metalness={0.5}
+            />
+      </Backdrop>
+      <ContactShadows position={[0, -0.485, 0]} scale={5} blur={1.5} far={1} />
+      
+    
         
         {/* <ambientLight intensity={1.5} />
         <Sky scale={1000} sunPosition={[2, 0.4, 10]} />
         <spotLight angle={0.14} color="#ffd0d0" penumbra={1} position={[500, 4000, 0]} shadow-mapSize={[2048, 2048]} shadow-bias={-0.0001} castShadow /> */}
        
         <Suspense fallback={null}>
-          <Stage contactShadow shadows adjustCamera intensity={1} environment="forest" preset="soft">
-              <Gecko scale={0.1}/>
-          </Stage>
+          
+          <Gecko scale={0.1} position={[0, -0.5, 0]}/>
+
         </Suspense>
     </Canvas>
   )
@@ -36,13 +61,26 @@ function Gecko({ ...props }) {
       //debugger;
       const material = new THREE.MeshBasicMaterial({color:"lightblue"})
       const [matcap, url] = useMatcapTexture(
-        10, // index of the matcap texture https://github.com/emmelleppi/matcaps/blob/master/matcap-list.json
+        // short listed list 10,18, 20,33, 46, 58, 71, 90, 150, 159, 325, 337, 389
+        33, // index of the matcap texture https://github.com/emmelleppi/matcaps/blob/master/matcap-list.json
         1024 // size of the texture ( 64, 128, 256, 512, 1024 )
        )
       
+      const ref = useRef()
+      useFrame((state, delta) => (ref.current.time += delta))
+
+      softShadows({
+        frustum: 3.75, // Frustum width (default: 3.75) must be a float
+        size: 0.005, // World size (default: 0.005) must be a float
+        near: 9.5, // Near plane (default: 9.5) must be a float
+        samples: 17, // Samples (default: 17) must be a int
+        rings: 11, // Rings (default: 11) must be a int
+      })
+      
       return (
       <mesh geometry={obj.children[0].geometry} {...props}>
-        <meshMatcapMaterial matcap={matcap} />
+        {/* <meshMatcapMaterial matcap={matcap} /> */}
+        <waveMaterial ref={ref} key={WaveMaterial.key} colorStart="pink" colorEnd="white" />
       </mesh>)
   }
 
