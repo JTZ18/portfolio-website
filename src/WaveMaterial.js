@@ -27,6 +27,8 @@ class WaveMaterial extends THREE.ShaderMaterial {
       uniform vec3 colorStart;
       uniform vec3 colorEnd;
       varying vec2 vUv;
+
+    
       void main() {
         vec2 displacedUv = vUv + cnoise3(vec3(vUv * 10.0, time * 0.1));
         float strength = cnoise3(vec3(displacedUv * 10.0, time * 0.2));
