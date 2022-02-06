@@ -9,8 +9,11 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { useAnimatedSprite } from 'use-animated-sprite';
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator"
 import { WaveMaterial } from './WaveMaterial'
-import {PsychedelicShader} from './PsychedelicShader'
+import './shaders/PortalMaterial'
+import Fireflies from './components/Fireflies';
 import glsl from 'babel-plugin-glsl/macro'
+
+
 
 
 
@@ -21,13 +24,14 @@ export default function NewApp() {
     <Canvas dpr={[1, 2]} shadows camera={{ position: [0, 0, 3] }}>
       <OrbitControls makeDefault/>
       <color attach="background" args={['#191920']} />
-      <fog attach="fog" args={['#191920', 0, 15]} />
+      
       <ambientLight intensity={1} />
       <directionalLight position={[-10, 0, -5]} intensity={5} color="red" />
       <directionalLight position={[-1, -2, -5]} intensity={5} color="#0c8cbf" />
       {/* <spotLight position={[5, 0, 5]} intensity={100} penumbra={1} angle={0.33} castShadow color="#0c8cbf" /> */}
       {/* <spotLight position={[10, 10, 5]} angle={0.15} penumbra={1} intensity={100} castShadow shadow-mapSize={[2048, 2048]} color="#0c8cbf" /> */}
       <BackdropWithShader />
+      <fog attach="fog" args={['#191920', 0, 15]} />
       <ContactShadows position={[0, -0.485, 0]} scale={5} blur={1.5} far={1} />
       
     
@@ -39,8 +43,10 @@ export default function NewApp() {
         <Suspense fallback={null}>
           
           <Gecko scale={0.1} position={[0, -0.5, 0]}/>
+          <Fireflies count={50} />
 
         </Suspense>
+        
     </Canvas>
   )
 }
@@ -72,7 +78,7 @@ function Gecko({ ...props }) {
       return (
       <mesh geometry={obj.children[0].geometry} {...props}>
         {/* <meshMatcapMaterial matcap={matcap} /> */}
-        <waveMaterial ref={ref} key={WaveMaterial.key} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" />
+        <portalMaterial ref={ref} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" />
         {/* <psychedelicShader ref={ref} key={PsychedelicShader.key}/> */}
         
       </mesh>)
@@ -80,13 +86,15 @@ function Gecko({ ...props }) {
 
 function BackdropWithShader() {
   const ref = useRef()
-  useFrame((state, delta) => (ref.current.time += delta))
+  useFrame((state, delta) => (ref.current.uTime += delta))
+  //debugger;
 
 
   return(
-    <Backdrop castShadow floor={2} position={[0, -0.5, -3]} scale={[50, 10, 4]}>
+    <Backdrop castShadow floor={2} position={[0, -0.5, -3]} scale={[100, 20, 5]}>
         {/* <waveMaterial ref={ref} key={WaveMaterial.key} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" /> */}
-        <psychedelicShader ref={ref} key={PsychedelicShader.key}/>
+        <waveMaterial ref={ref} key={WaveMaterial.key} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" />
+        
     </Backdrop>
   )
 
