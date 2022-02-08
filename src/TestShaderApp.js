@@ -169,3 +169,5 @@ const TestShaderApp = () => {
 };
 
 export default TestShaderApp;
+
+// APPLY ray tracing to the gecko shader to apply so that fireflies particle can 

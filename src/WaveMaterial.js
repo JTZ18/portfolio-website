@@ -10,12 +10,21 @@ class WaveMaterial extends THREE.ShaderMaterial {
       uniforms: {
         uTime: {value: 0}, 
         iResolution: { value: new THREE.Vector3(2560, 581,1) },
+        fog: true,
+        fogColor: { value: new THREE.Color(1,1,1)},
+        fogDensity: { value: 0.00025},
+        fogNear: { value: 1},
+        fogFar: { value: 2000},
       },
       vertexShader: glsl`
+        #include <fog_pars_vertex>
         uniform float uTime;
         varying vec2 vUv;
         varying float vUTime;
         void main() {
+          #include <begin_vertex>
+          #include <project_vertex>
+          #include <fog_vertex>
           vec4 modelPosition = modelMatrix * vec4(position, 1.0);
           vec4 viewPosition = viewMatrix * modelPosition;
           vec4 projectionPosition = projectionMatrix * viewPosition;
@@ -25,6 +34,7 @@ class WaveMaterial extends THREE.ShaderMaterial {
         }
       `,
       fragmentShader: glsl`
+      #include <fog_pars_fragment>
       #ifdef GL_ES
       precision mediump float;
       #endif
@@ -122,8 +132,11 @@ class WaveMaterial extends THREE.ShaderMaterial {
         col = 1.1*col*col;
           
           gl_FragColor = vec4( col, 1.0 );
+          #include <fog_fragment>
+          
       }
-`
+      `,   
+      fog: true
     })
   }
 

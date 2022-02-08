@@ -86,8 +86,12 @@ function Gecko({ ...props }) {
 
 function BackdropWithShader() {
   const ref = useRef()
+  
   useFrame((state, delta) => (ref.current.uTime += delta))
   //debugger;
+  useFrame((state) => {
+    //console.log(ref);
+  })
 
 
   return(
