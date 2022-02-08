@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as THREE from 'three'
 import { Suspense, useEffect, useLayoutEffect, useRef } from 'react'
 import { Canvas, extend, useFrame, useLoader, useThree } from '@react-three/fiber'
-import { ScrollControls, Sky, useScroll, useGLTF, useFBX, useAnimations, OrbitControls, useTexture, Stage, Backdrop, useMatcapTexture, MeshReflectorMaterial, Environment, ContactShadows, softShadows, shaderMaterial } from '@react-three/drei'
+import { ScrollControls, Sky, useScroll, useGLTF, useFBX, useAnimations, OrbitControls, useTexture, Stage, Backdrop, useMatcapTexture, MeshReflectorMaterial, Environment, ContactShadows, softShadows, shaderMaterial, Cloud } from '@react-three/drei'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { Bounds, GizmoHelper, GizmoViewport, Box } from '@react-three/drei'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
@@ -26,8 +26,8 @@ export default function NewApp() {
       <color attach="background" args={['#191920']} />
       
       <ambientLight intensity={1} />
-      <directionalLight position={[-10, 0, -5]} intensity={5} color="red" />
-      <directionalLight position={[-1, -2, -5]} intensity={5} color="#0c8cbf" />
+      <directionalLight position={[-10, 0, -5]} intensity={10} color="red" />
+      <directionalLight position={[-1, -2, -5]} intensity={10} color="#0c8cbf" />
       {/* <spotLight position={[5, 0, 5]} intensity={100} penumbra={1} angle={0.33} castShadow color="#0c8cbf" /> */}
       {/* <spotLight position={[10, 10, 5]} angle={0.15} penumbra={1} intensity={100} castShadow shadow-mapSize={[2048, 2048]} color="#0c8cbf" /> */}
       <BackdropWithShader />
@@ -44,6 +44,14 @@ export default function NewApp() {
           
           <Gecko scale={0.1} position={[0, -0.5, 0]}/>
           <Fireflies count={50} />
+          <Cloud
+            position={[0, 1.8, 0]}
+            opacity={0.3}
+            speed={0.4} // Rotation speed
+            width={7} // Width of the full cloud
+            depth={0.8} // Z-dir depth
+            segments={10} // Number of particles
+          />
 
         </Suspense>
         
@@ -101,23 +109,29 @@ function BackdropWithShader() {
         
     </Backdrop>
   )
+}
 
+function Smoke() { 
+  return(
+    <mesh />
+  )
 }
 
 
-  function Smoke({IconPosition, IconSize, ...props }) {
+// sprite sheet animation smoke
+//   function Smoke({IconPosition, IconSize, ...props }) {
 
-    const spriteTexture = useLoader(THREE.TextureLoader, './smoke-sprite-sheetv3.png')
-    const [animator] = useState(() => new PlainAnimator(spriteTexture, 8, 8, 52, 30))
-    useFrame(() => animator.animate())
+//     const spriteTexture = useLoader(THREE.TextureLoader, './smoke-sprite-sheetv3.png')
+//     const [animator] = useState(() => new PlainAnimator(spriteTexture, 8, 8, 52, 30))
+//     useFrame(() => animator.animate())
   
-    return (
-      <mesh position={IconPosition}>
-        <boxGeometry args={IconSize} />
-        <meshStandardMaterial map={spriteTexture} transparent={true} />
-      </mesh>
-    )
-}
+//     return (
+//       <mesh position={IconPosition}>
+//         <boxGeometry args={IconSize} />
+//         <meshStandardMaterial map={spriteTexture} transparent={true} />
+//       </mesh>
+//     )
+// }
 
 
 function BuildingGLB({ ...props }) {
