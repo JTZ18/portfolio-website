@@ -8,7 +8,7 @@ import { Bounds, GizmoHelper, GizmoViewport, Box } from '@react-three/drei'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { useAnimatedSprite } from 'use-animated-sprite';
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator"
-import { WaveMaterial } from './WaveMaterial'
+import { WaveMaterial } from './shaders/WaveMaterial'
 import './shaders/PortalMaterial'
 import Fireflies from './components/Fireflies';
 import glsl from 'babel-plugin-glsl/macro'
@@ -97,7 +97,7 @@ function BackdropWithShader() {
   return(
     <Backdrop castShadow floor={2} position={[0, -0.5, -3]} scale={[100, 20, 5]}>
         {/* <waveMaterial ref={ref} key={WaveMaterial.key} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" /> */}
-        <waveMaterial ref={ref} key={WaveMaterial.key} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" />
+        <waveMaterial ref={ref} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" />
         
     </Backdrop>
   )
