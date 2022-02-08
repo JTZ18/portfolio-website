@@ -30,6 +30,7 @@ export default function NewApp() {
       <directionalLight position={[-1, -2, -5]} intensity={10} color="#0c8cbf" />
       {/* <spotLight position={[5, 0, 5]} intensity={100} penumbra={1} angle={0.33} castShadow color="#0c8cbf" /> */}
       {/* <spotLight position={[10, 10, 5]} angle={0.15} penumbra={1} intensity={100} castShadow shadow-mapSize={[2048, 2048]} color="#0c8cbf" /> */}
+      <spotLight position={[0, 1, 0]} angle={0} penumbra={1} intensity={100} castShadow shadow-mapSize={[2048, 2048]} color="#0c8cbf" />
       <BackdropWithShader />
       <fog attach="fog" args={['#191920', 0, 15]} />
       <ContactShadows position={[0, -0.485, 0]} scale={5} blur={1.5} far={1} />
@@ -46,11 +47,11 @@ export default function NewApp() {
           <Fireflies count={50} />
           <Cloud
             position={[0, 1.8, 0]}
-            opacity={0.3}
+            opacity={0.2}
             speed={0.4} // Rotation speed
-            width={7} // Width of the full cloud
+            width={10} // Width of the full cloud
             depth={0.8} // Z-dir depth
-            segments={10} // Number of particles
+            segments={50} // Number of particles
           />
 
         </Suspense>
@@ -103,7 +104,7 @@ function BackdropWithShader() {
 
 
   return(
-    <Backdrop castShadow floor={2} position={[0, -0.5, -3]} scale={[100, 20, 5]}>
+    <Backdrop castShadow floor={2} segments={20} position={[0, -0.5, -3]} scale={[50, 20, 5]}>
         {/* <waveMaterial ref={ref} key={WaveMaterial.key} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" /> */}
         <waveMaterial ref={ref} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" />
         
