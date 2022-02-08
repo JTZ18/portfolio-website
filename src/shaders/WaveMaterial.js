@@ -13,6 +13,24 @@ export default class WaveMaterial extends THREE.ShaderMaterial {
         fogDensity: { value: 0.00025},
         fogNear: { value: 1},
         fogFar: { value: 2000},
+        ambientLightColor:{value:new THREE.Color('#ffffff')},
+        lightProbe:{value:1},
+        directionalLights:{value:new THREE.Vector3(1,0,2)},
+        directionalLightShadows:{value:true},
+        spotLights:{value:true},
+        spotLightShadows:{value:true},
+        spotShadowMap:{value:true},
+        spotShadowMatrix:{value:true},
+        rectAreaLights:{value:false},
+        ltc_1:{value:false},
+        ltc_2:{value:false},
+        pointLights:{value:true},
+        pointLightShadows:{value:true},
+        pointShadowMap:{value:true},
+        pointShadowMatrix:{value:true},
+        hemisphereLights:{value:false},
+        directionalShadowMap:{value:true},
+        directionalShadowMatrix:{value:true}
       },
       vertexShader: glsl`
         #include <fog_pars_vertex>
@@ -134,7 +152,8 @@ export default class WaveMaterial extends THREE.ShaderMaterial {
           
       }
       `,   
-      fog: true
+      fog: true,
+      lights: true,
     })
   }
 
