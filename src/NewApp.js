@@ -10,10 +10,12 @@ import { useAnimatedSprite } from 'use-animated-sprite';
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator"
 import { WaveMaterial } from './shaders/WaveMaterial'
 import './shaders/PortalMaterial'
+import './shaders/GlowingRing'
 import Fireflies from './components/Fireflies';
 import glsl from 'babel-plugin-glsl/macro'
 import { MeshStandardMaterial } from 'three';
 import WaveVertexShader from './shaders/WaveVertex.glsl'
+import Theov4 from './components/Theov4'
 
 
 
@@ -36,7 +38,7 @@ export default function NewApp() {
       <spotLight position={[0, 1, 0]} angle={0} penumbra={1} intensity={100} castShadow shadow-mapSize={[2048, 2048]} color="#0c8cbf" />
       {/* <BackdropWithShader /> */}
     
-      {/* <fog attach="fog" args={['#191920', 0, 15]} /> */}
+      <fog attach="fog" args={['#191920', 0, 15]} />
       
     
         
@@ -45,11 +47,11 @@ export default function NewApp() {
         <spotLight angle={0.14} color="#ffd0d0" penumbra={1} position={[500, 4000, 0]} shadow-mapSize={[2048, 2048]} shadow-bias={-0.0001} castShadow /> */}
        
         <Suspense fallback={null}>
-          
+          {/* <Theov4 scale={10} rotation={[0,Math.PI / 2,0]}/> */}
           <Gecko scale={0.1} position={[0, -0.5, 0]}/>
           <spotLight color="white" intensity={1} position={[0,5,0]} />
           <CurvedPlaneGLB />
-          {/* <Fireflies count={400} />
+          <Fireflies count={400} />
           <Cloud
             position={[0, 1.8, 0]}
             opacity={0.08}
@@ -57,7 +59,7 @@ export default function NewApp() {
             width={10} // Width of the full cloud
             depth={0.8} // Z-dir depth
             segments={50} // Number of particles
-          /> */}
+          />
 
         </Suspense>
         
@@ -72,7 +74,8 @@ function Gecko({ ...props }) {
       //console.log(obj.children[0].geometry)
       //debugger;
       const ref = useRef()
-      useFrame((state, delta) => (ref.current.time += delta))
+      // useFrame((state, delta) => (ref.current.time += delta))
+      useFrame((state, delta) => (ref.current.uTime += delta))
       const material = new THREE.MeshPhongMaterial({color:"lightblue"})
       material.onBeforeCompile = (shader) => {
         shader.uniforms.uTime = {value: 0} 
@@ -103,8 +106,7 @@ function Gecko({ ...props }) {
       <mesh geometry={obj.children[0].geometry} {...props}>
         {/* <meshMatcapMaterial matcap={matcap} /> */}
         <portalMaterial ref={ref} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" />
-        {/* <psychedelicShader ref={ref} key={PsychedelicShader.key}/> */}
-        
+        {/* <glowingRing ref={ref} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" /> */}
       </mesh>)
   }
 
@@ -190,7 +192,7 @@ function CurvedPlaneGLB({...props}) {
   
   const ref = useRef()
 
-  // useFrame((state, delta) => (ref.current.uTime += delta))
+  useFrame((state, delta) => (ref.current.uTime += delta))
   return (
     // <mesh name="Plane" geometry={scene.children[0].geometry} scale={10}>
     //   <meshStandardMaterial />
@@ -203,6 +205,25 @@ function CurvedPlaneGLB({...props}) {
   )
 }
 
+function Gecko4({...props}) {
+  const { scene, nodes, animations } = useLoader(GLTFLoader,'/theov4.glb')
+  //console.log(animations)
+  console.log(nodes)
+  
+  const ref = useRef()
+
+  // useFrame((state, delta) => (ref.current.uTime += delta))
+  return (
+    // <mesh name="Plane" geometry={scene.children[0].geometry} scale={10}>
+    //   <meshStandardMaterial />
+    // </mesh>
+    <mesh geometry={nodes.Plane.geometry} scale={[15,4,20]} position={[0,-2,0]}>
+      <waveMaterial ref={ref}/>
+      {/* <meshStandardMaterial color={"grey"} /> */}
+    </mesh>
+
+  )
+}
 
 
 
