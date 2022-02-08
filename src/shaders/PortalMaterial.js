@@ -8,11 +8,19 @@ export default class PortalMaterial extends THREE.ShaderMaterial {
       uniforms: {
         time: { value: 0 },
         colorStart: { value: new THREE.Color('hotpink') },
-        colorEnd: { value: new THREE.Color('white') }
+        colorEnd: { value: new THREE.Color('white') },
+        fogColor: { value: new THREE.Color(1,1,1)},
+        fogDensity: { value: 0.00025},
+        fogNear: { value: 1},
+        fogFar: { value: 2000},
       },
       vertexShader: glsl`
+      #include <fog_pars_vertex>
       varying vec2 vUv;
       void main() {
+        #include <begin_vertex>
+        #include <project_vertex>
+        #include <fog_vertex>
         vec4 modelPosition = modelMatrix * vec4(position, 1.0);
         vec4 viewPosition = viewMatrix * modelPosition;
         vec4 projectionPosition = projectionMatrix * viewPosition;
@@ -20,6 +28,7 @@ export default class PortalMaterial extends THREE.ShaderMaterial {
         vUv = uv;
       }`,
       fragmentShader: glsl`
+      #include <fog_pars_fragment>
       #pragma glslify: cnoise3 = require(glsl-noise/classic/3d.glsl) 
       uniform float time;
       uniform vec3 colorStart;
@@ -34,7 +43,9 @@ export default class PortalMaterial extends THREE.ShaderMaterial {
         strength = clamp(strength, 0.0, 1.0);
         vec3 color = mix(colorStart, colorEnd, strength);
         gl_FragColor = vec4(color, 1.0);
-      }`
+        #include <fog_fragment>
+      }`,
+      fog: true
     })
   }
 
