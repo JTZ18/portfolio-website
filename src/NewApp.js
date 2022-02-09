@@ -30,14 +30,14 @@ export default function NewApp() {
       <color attach="background" args={['#191920']} />
       
       <ambientLight intensity={1} />
-      <directionalLight position={[-10, 0, -5]} intensity={10} color="red" />
-      <directionalLight position={[-1, -2, -5]} intensity={10} color="#0c8cbf" />
+      {/*  */}
       
       {/* <spotLight position={[5, 0, 5]} intensity={100} penumbra={1} angle={0.33} castShadow color="#0c8cbf" />
       <spotLight position={[10, 10, 5]} angle={0.15} penumbra={1} intensity={100} castShadow shadow-mapSize={[2048, 2048]} color="#0c8cbf" /> */}
-      <spotLight position={[0, 1, 0]} angle={0} penumbra={1} intensity={100} castShadow shadow-mapSize={[2048, 2048]} color="#0c8cbf" />
+      {/* <spotLight position={[0, 1, 0]} angle={0} penumbra={1} intensity={100} castShadow shadow-mapSize={[2048, 2048]} color="#0c8cbf" /> */}
       {/* <BackdropWithShader /> */}
-    
+    {/* <directionalLight position={[-10, 0, -5]} intensity={10} color="red" />
+      <directionalLight position={[-1, -2, -5]} intensity={10} color="#0c8cbf" /> */}
       <fog attach="fog" args={['#191920', 0, 15]} />
       
     
@@ -47,9 +47,10 @@ export default function NewApp() {
         <spotLight angle={0.14} color="#ffd0d0" penumbra={1} position={[500, 4000, 0]} shadow-mapSize={[2048, 2048]} shadow-bias={-0.0001} castShadow /> */}
        
         <Suspense fallback={null}>
-          {/* <Theov4 scale={10} rotation={[0,Math.PI / 2,0]}/> */}
-          <Gecko scale={0.1} position={[0, -0.5, 0]}/>
-          <spotLight color="white" intensity={1} position={[0,5,0]} />
+        <spotLight position={[2, 3, -5]} intensity={1} penumbra={1} angle={0.53} castShadow color="#ff4000" />
+        <spotLight position={[2, 3, 5]} intensity={1} penumbra={1} angle={0.53} castShadow color="#ff4000" />
+          <Theov4 scale={10} rotation={[0,Math.PI / 2,0]}/>
+          {/* <Gecko scale={0.1} position={[0, -0.5, 0]}/> */}
           <CurvedPlaneGLB />
           <Fireflies count={400} />
           <Cloud
@@ -75,7 +76,7 @@ function Gecko({ ...props }) {
       //debugger;
       const ref = useRef()
       // useFrame((state, delta) => (ref.current.time += delta))
-      useFrame((state, delta) => (ref.current.uTime += delta))
+      // useFrame((state, delta) => (ref.current.uTime += delta))
       const material = new THREE.MeshPhongMaterial({color:"lightblue"})
       material.onBeforeCompile = (shader) => {
         shader.uniforms.uTime = {value: 0} 
@@ -101,11 +102,19 @@ function Gecko({ ...props }) {
         samples: 17, // Samples (default: 17) must be a int
         rings: 11, // Rings (default: 11) must be a int
       })
+
+      const material2 = new THREE.MeshPhongMaterial({
+        color:"black",
+        emissive: "black",
+        specular: "#ff4000",
+        shininess: 100,
+
+      })
       
       return (
-      <mesh geometry={obj.children[0].geometry} {...props}>
+      <mesh geometry={obj.children[0].geometry} material={material2} {...props}>
         {/* <meshMatcapMaterial matcap={matcap} /> */}
-        <portalMaterial ref={ref} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" />
+        {/* <portalMaterial ref={ref} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" /> */}
         {/* <glowingRing ref={ref} colorStart="hotpink" colorEnd="rgb(124, 79, 203)" /> */}
       </mesh>)
   }
@@ -154,7 +163,7 @@ function CurvedPlane() {
   return (
     <mesh geometry={geometry} scale={2}>
       {/* <waveMaterial ref={ref}/> */}
-      <meshStandardMaterial />
+      <meshPhongMaterial color={"#000000"}/>
     </mesh>
   )
 }

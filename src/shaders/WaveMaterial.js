@@ -4,34 +4,36 @@ import glsl from 'babel-plugin-glsl/macro'
 
 export default class WaveMaterial extends THREE.ShaderMaterial {
   constructor() {
+    var uniforms = THREE.UniformsUtils.merge([
+      THREE.UniformsLib['ambient'],
+      THREE.UniformsLib['lights'],
+      THREE.UniformsLib['fog'],
+      THREE.UniformsUtils.clone(THREE.ShaderLib.phong.uniforms),
+      {
+        "diffuse": {
+          type: 'c',
+          value: new THREE.Color(0xFF00FF)
+        },
+        "dirSpecularWeight": {
+          type: "v3",
+          value: new THREE.Vector3(1, 1, 1)
+        },
+        "time": {
+          type: 'f',
+          value: 0.0
+        },
+        uTime: {
+          type: 'f',
+          value: 0
+        }, 
+        iResolution: {
+          type: "v3",
+           value: new THREE.Vector3(2560, 581,1) 
+        },
+      }
+    ]);
     super({
-      uniforms: {
-        uTime: {value: 0}, 
-        iResolution: { value: new THREE.Vector3(2560, 581,1) },
-        fog: true,
-        fogColor: { value: new THREE.Color(1,1,1)},
-        fogDensity: { value: 0.00025},
-        fogNear: { value: 1},
-        fogFar: { value: 2000},
-        ambientLightColor:{value:new THREE.Color('#ffffff')},
-        lightProbe:{value:1},
-        directionalLights:{value:new THREE.Vector3(1,0,2)},
-        directionalLightShadows:{value:true},
-        spotLights:{value:true},
-        spotLightShadows:{value:true},
-        spotShadowMap:{value:true},
-        spotShadowMatrix:{value:true},
-        rectAreaLights:{value:false},
-        ltc_1:{value:false},
-        ltc_2:{value:false},
-        pointLights:{value:true},
-        pointLightShadows:{value:true},
-        pointShadowMap:{value:true},
-        pointShadowMatrix:{value:true},
-        hemisphereLights:{value:false},
-        directionalShadowMap:{value:true},
-        directionalShadowMatrix:{value:true}
-      },
+      uniforms: uniforms,
       vertexShader: glsl`
         #include <fog_pars_vertex>
         uniform float uTime;
