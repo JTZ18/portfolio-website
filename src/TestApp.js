@@ -18,7 +18,8 @@ function TestApp() {
     //debugger;
   return (
       <>
-        <Canvas shadows >
+        <Canvas shadows onCreated={(state) => state.events.connect(overlay.current)}
+        raycaster={{ computeOffsets: ({ clientX, clientY }) => ({ offsetX: clientX, offsetY: clientY }) }}>
           {/* <OrbitControls /> */}
           <ambientLight intensity={1.5} />
           <spotLight angle={0.14} color="#ffd0d0" penumbra={1} position={[500, 4000, 0]} shadow-mapSize={[2048, 2048]} shadow-bias={-0.0001} castShadow />
@@ -28,6 +29,7 @@ function TestApp() {
             </ScrollControls>
           </Suspense>
         </Canvas>
+        <Overlay ref={overlay} caption={caption} scroll={scroll} />
       </>
   );
 }
