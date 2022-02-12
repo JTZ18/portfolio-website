@@ -7,25 +7,30 @@ import { Bounds, GizmoHelper, GizmoViewport, Box } from '@react-three/drei'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader'
 import { useAnimatedSprite } from 'use-animated-sprite';
 import { PlainAnimator } from "three-plain-animator/lib/plain-animator"
-import Model from './Model'
+// import Model from './Model'
+import Overlay from "./Overlay"
+import Model from './components/Forest_website'
 
 function TestApp() {
     const scroll = useRef(0)
+    const overlay = useRef()
+    const caption = useRef()
     //debugger;
   return (
       <>
         <Canvas shadows >
-          <OrbitControls />
+          {/* <OrbitControls /> */}
           <ambientLight intensity={1.5} />
-          <Sky scale={1000} sunPosition={[2, 0.4, 10]} />
           <spotLight angle={0.14} color="#ffd0d0" penumbra={1} position={[500, 4000, 0]} shadow-mapSize={[2048, 2048]} shadow-bias={-0.0001} castShadow />
-          <ambientLight intensity={1} />
           <Suspense fallback={null}>
-            <Model scroll={scroll} />
+            <ScrollControls pages={50}>
+              <Model scroll={scroll} />
+            </ScrollControls>
           </Suspense>
         </Canvas>
       </>
   );
 }
+
 
 export default TestApp;

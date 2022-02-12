@@ -15,7 +15,7 @@ import Fireflies from './components/Fireflies';
 import glsl from 'babel-plugin-glsl/macro'
 import { MeshStandardMaterial } from 'three';
 import WaveVertexShader from './shaders/WaveVertex.glsl'
-import Theov4 from './components/Theov4'
+
 
 
 
