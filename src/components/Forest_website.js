@@ -40,7 +40,51 @@ export default function Model({aboutStatus, setAboutStatus, ...props }) {
             setAboutStatus(!aboutStatus)}}
           variants={containerVariants}
           animate={aboutStatus ? "hidden" : "visible"}>
-            About <span style={{fontSize: '1.5em' }}>🥲</span>
+            About
+          </About>
+      </Html>
+
+      <Html scale={1.5} rotation={[0, -Math.PI / 2 +1.2, 0]} position={[7.85, 1.6, 7.5]} transform occlude>
+          <About 
+          onClick={() => {
+            console.log(props.teslaStatus)
+            props.setTeslaStatus(!props.teslaStatus)}}
+          variants={containerVariants}
+          animate={props.teslaStatus ? "hidden" : "visible"}>
+            Tesla
+          </About>
+      </Html>
+
+      <Html scale={1.5} rotation={[0, -Math.PI / 2 +0.5, 0]} position={[5.85, 4.23, 0.5]} transform occlude>
+          <About 
+          onClick={() => {
+            console.log(props.disneyStatus)
+            props.setDisneyStatus(!props.disneyStatus)}}
+          variants={containerVariants}
+          animate={props.disneyStatus ? "hidden" : "visible"}>
+            Disney
+          </About>
+      </Html>
+
+      <Html scale={1.5} rotation={[0, -Math.PI / 2 +2.4, 0]} position={[-3.2, 5.6, -19.5]} transform occlude>
+          <About 
+          onClick={() => {
+            console.log(props.liv3lyStatus)
+            props.setLiv3lyStatus(!props.liv3lyStatus)}}
+          variants={containerVariants}
+          animate={props.liv3lyStatus ? "hidden" : "visible"}>
+            Liv3ly
+          </About>
+      </Html>
+
+      <Html scale={1.5} rotation={[0, -Math.PI / 2 +0.5, 0]} position={[8.85, 5.8, -26.1]} transform occlude>
+          <About 
+          onClick={() => {
+            console.log(props.geckoStatus)
+            props.setGeckoStatus(!props.geckoStatus)}}
+          variants={containerVariants}
+          animate={props.geckoStatus ? "hidden" : "visible"}>
+            Gecko
           </About>
       </Html>
 
@@ -138,3 +182,7 @@ const containerVariants = {
     }
   }
 }
+
+const Tesla = styled(About) `
+
+`
