@@ -4,7 +4,7 @@ import styled from 'styled-components'
 function DisneyContent() {
   return (
     <Container>
-      <ImageContainer onClick={() => window.open('https://tesla-clonex-web.herokuapp.com/')}>
+      <ImageContainer onClick={() => window.open('https://disney-plus-clone-c3c6b.web.app/home')}>
         <img src="/disney.PNG" />
       </ImageContainer>
       <Title>
@@ -40,12 +40,13 @@ const ImageContainer = styled.div`
   align-items: center;
   border-radius: 20px;
   border: 2px solid gray;
-  width: 40%;
+  width: 70%;
   cursor: pointer;
   transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   img {
     border-radius: 20px;
+    width: 100%;
   }
 
   &:hover {
@@ -58,6 +59,7 @@ const ImageContainer = styled.div`
 
 const Title = styled.div`
   font-size: 1.5rem;
+  text-align: center;
 `
 
 const Description = styled.div`

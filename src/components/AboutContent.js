@@ -43,6 +43,12 @@ const Container = styled.div`
   width: 100%;
   padding: 20px;
 
+  @media only screen and (max-width: 1000px) {
+    width: 100%;
+    padding: 0px;
+    padding-right: 4%;
+  }
+
 `
 
 const Profile = styled.div`
@@ -58,9 +64,11 @@ const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  width: 30%;
 
   img{
     border-radius: 50%;
+    width: 100%;
   }
 `
 
@@ -94,6 +102,7 @@ const Description = styled.div`
   text-align: center;
   line-height: 1.5;
   letter-spacing: 0.5px;
+  font-size: 1rem;
 
 `
 

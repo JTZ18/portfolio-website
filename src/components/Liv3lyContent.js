@@ -4,7 +4,7 @@ import styled from 'styled-components'
 function Liv3lyContent() {
   return (
     <Container>
-      <ImageContainer onClick={() => window.open('https://master.d1pqnybej9irfg.amplifyapp.com/')}>
+      <ImageContainer onClick={() => window.open('http://liv3lynft.com')}>
         <img src="/Liv3ly.PNG" />
       </ImageContainer>
       <Title>
@@ -40,12 +40,13 @@ const ImageContainer = styled.div`
   align-items: center;
   border-radius: 20px;
   border: 2px solid gray;
-  width: 40%;
+  width: 70%;
   cursor: pointer;
   transition: all 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   img {
     border-radius: 20px;
+    width: 100%;
   }
 
   &:hover {

@@ -49,12 +49,12 @@ function TestApp() {
 
           <Suspense fallback={null}>
             <ScrollControls pages={40}>
-              <mesh position={[-15.5, 19, 30]} rotation={[0.4, 0.74, -0.20]}>
-                <textGeometry args={['Jon', {font, size:5, height:1}]} />
+              <mesh position={[-9., 15, 30]} rotation={[0.4, 0.74, -0.20]}>
+                <textGeometry args={['Jon', {font, size:2, height:1}]} />
                 <meshPhongMaterial attach="material" color={"yellow"} />
               </mesh>
-              <mesh position={[-19.5, 12, 30]} rotation={[0.4, 0.74, -0.20]}>
-                <textGeometry args={['Taylor', {font, size:5, height:1}]} />
+              <mesh position={[-11.0, 12, 30]} rotation={[0.4, 0.74, -0.20]}>
+                <textGeometry args={['Taylor', {font, size:2, height:1}]} />
                 <meshPhongMaterial attach="material" color={"yellow"} />
               </mesh>
               <Model 
@@ -139,6 +139,14 @@ const About = styled(motion.div)`
   display: flex;
   justify-content: flex-start;
   text-align: start;
+
+  @media only screen and (max-width: 1000px) {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    border-radius: 0px;
+  }
 `
 
 const CustomClose = styled(CloseIcon)`
